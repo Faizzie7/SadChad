@@ -9,7 +9,7 @@ Not therapy. Not corporate motivation. Just real talk, short replies, and suppor
 ## 🚀 Tech Stack
 
 **Frontend**
-- Angular 21
+- Angular 17
 - TypeScript
 - Modern responsive UI
 
