@@ -1,0 +1,79 @@
+<div class="chat-container">
+
+  <div class="chat-header">
+  <span>SadChad “Your bro who actually listens and occasionally gives life advice”</span>
+
+  <button 
+    class="new-chat-btn"
+    (click)="startNewChat()">
+    + New Chat
+  </button>
+</div>
+
+  @if (showEmergencyPrompt) {
+    <div class="emergency-card">
+      <h4>⚠ It looks like you might be in distress.</h4>
+      <p>
+        If you are in immediate danger, please seek emergency help.
+      </p>
+      <a routerLink="/emergency" class="emergency-button">
+  Go to Emergency Support
+</a>
+    </div>
+  }
+
+  <div class="chat-box" #chatBox>
+
+    @for (msg of messages; track msg) {
+      <div [ngClass]="msg.sender === 'You' ? 'user-message' : 'ai-message'">
+        <span [innerHTML]="msg.text"></span>
+        <div class="message-time">
+          {{ msg.time | date:'shortTime' }}
+        </div>
+      </div>
+    }
+
+    @if (isLoading) {
+      <div class="typing-indicator">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+    }
+
+  </div>
+
+  @if (!emotionsUsed && messages.length === 0) {
+    <div class="emotion-bar">
+      @for (e of emotions; track e.emoji) {
+        <button
+          (click)="sendEmotion(e.text)"
+          class="emotion-btn"
+          [disabled]="isLoading"
+        >
+          {{e.emoji}} {{e.text}}
+        </button>
+      }
+    </div>
+  }
+
+  <div class="input-area">
+    <input 
+      [(ngModel)]="userInput" 
+      (keyup.enter)="sendMessage()"
+      [disabled]="isLoading"
+      placeholder="Type your message..."
+    />
+    <button 
+      (click)="sendMessage()" 
+      [disabled]="isLoading">
+      @if (!isLoading) {
+        <span>➤</span>
+      }
+      @if (isLoading) {
+        <span class="spinner"></span>
+      }
+    </button>
+  </div>
+
+</div>

@@ -1,0 +1,269 @@
+.chat-container {
+  width: 100%;
+  height: 98vh;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid rgb(255, 255, 255);
+}
+
+/* HEADER */
+.chat-header {
+  padding: 20px;
+  text-align: center;
+  font-size: 25px;
+  font-weight: bold;
+  background: linear-gradient(90deg, #00f5ff, #ffffff);
+  color: rgb(0, 0, 0);
+}
+
+/* CHAT AREA */
+.chat-box {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  scroll-behavior: smooth;
+}
+
+/* USER MESSAGE */
+.user-message {
+  align-self: flex-end;
+  background: linear-gradient(270deg, #ff7300, #ffba52, #ffc919);
+  background-size: 200% 200%;
+  animation: gradientMove 4s ease infinite;
+  padding: 12px 16px;
+  margin: 8px 0;
+  border-radius: 20px 20px 6px 20px;
+  max-width: 60%;
+  color: white;
+  font-size: 15px;
+}
+
+/* AI MESSAGE - WHITE LIGHT GRADIENT */
+.ai-message {
+  align-self: flex-start;
+  background: linear-gradient(270deg, #00f5ff, #0088ff, #00f5ff);
+  background-size: 200% 200%;
+  animation: gradientMove 6s ease infinite;
+  padding: 12px 16px;
+  margin: 8px 0;
+  border-radius: 20px 20px 20px 6px;
+  max-width: 60%;
+  color: #111;
+  font-size: 15px;
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+}
+
+/* MESSAGE TIME */
+.message-time {
+  font-size: 11px;
+  opacity: 0.6;
+  margin-top: 4px;
+}
+
+/* INPUT AREA */
+.input-area {
+  display: flex;
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.input-area input {
+  flex: 1;
+  padding: 12px;
+  border-radius: 25px;
+  border: none;
+  outline: none;
+  background: rgba(255, 255, 255, 0.08);
+  color: white;
+  font-size: 15px;
+}
+
+.input-area input:disabled {
+  opacity: 0.5;
+}
+
+.input-area button {
+  margin-left: 12px;
+  padding: 12px 16px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  background: linear-gradient(135deg, #00f5ff, #00ff99);
+  font-size: 16px;
+  color: black;
+  position: relative;
+}
+
+/* SPINNER */
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 3px solid rgba(0,0,0,0.3);
+  border-top: 3px solid black;
+  border-radius: 50%;
+  display: inline-block;
+  animation: spin 1s linear infinite;
+}
+
+/* TYPING INDICATOR */
+.typing-indicator {
+  display: flex;
+  margin: 10px 0;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  margin-right: 5px;
+  background: #00f5ff;
+  border-radius: 50%;
+  animation: blink 1.4s infinite both;
+}
+
+.dot:nth-child(2) { animation-delay: .2s; }
+.dot:nth-child(3) { animation-delay: .4s; }
+
+/* ANIMATIONS */
+@keyframes blink {
+  0% { opacity: .2; }
+  20% { opacity: 1; }
+  100% { opacity: .2; }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* EMOTION BAR */
+.emotion-bar {
+  display: flex;
+  gap: 10px;
+  padding: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  background: rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid rgba(0, 255, 255, 0.1);
+}
+
+.emotion-btn {
+  background: rgba(0, 200, 255, 0.3);
+  border: 1px solid rgba(0, 255, 255, 0.4);
+  padding: 8px 14px;
+  border-radius: 20px;
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.emotion-btn:hover:not(:disabled) {
+  background: rgba(0, 255, 255, 0.4);
+  border-color: rgba(0, 255, 255, 0.6);
+  transform: scale(1.05);
+}
+
+.emotion-btn:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.emotion-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* EMERGENCY CARD */
+.emergency-card {
+  display: block;
+  flex-shrink: 0;
+  width: 100%;
+  background: rgba(255, 0, 0, 0.25);
+  border: 2px solid #ff4444;
+  padding: 16px;
+  border-radius: 8px;
+  margin: 12px 0;
+  color: #ffcccc;
+  box-sizing: border-box;
+  animation: emergencyPulse 1s ease-in-out infinite;
+}
+
+@keyframes emergencyPulse {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(255, 0, 0, 0.6);
+  }
+}
+
+.emergency-card h4 {
+  margin: 0 0 10px 0;
+  font-size: 18px;
+  font-weight: bold;
+  color: #ff6666;
+}
+
+.emergency-card p {
+  margin: 0 0 12px 0;
+  font-size: 15px;
+  color: #ffaaaa;
+}
+
+.emergency-card button {
+  width: 100%;
+  margin-top: 12px;
+  background: #cc0000;
+  border: none;
+  padding: 12px 16px;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 15px;
+  transition: all 0.2s ease;
+}
+
+.emergency-card button:hover {
+  background: #990000;
+  transform: scale(1.02);
+}
+
+.emergency-button {
+  display: inline-block;
+  background: crimson;
+  color: white;
+  padding: 10px 14px;
+  border-radius: 6px;
+  text-decoration: none;
+  cursor: pointer;
+}
+.chat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.new-chat-btn {
+  background: #ff4d4d;
+  border: none;
+  padding: 6px 12px;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.new-chat-btn:hover {
+  background: #e60000;
+}
