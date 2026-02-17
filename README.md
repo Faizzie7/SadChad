@@ -37,24 +37,28 @@ Clone the repository:
 ```bash
 git clone https://github.com/Faizzie7/SadChad.git
 cd SadChad
+```
 
 🔹 Backend Setup
+```bash
 cd backend
 npm install
+```
 Create a .env file inside the backend folder:
-
 GROQ_API_KEY=your_api_key_here
 
 Start backend server:
-
+```bash
 node server.js
+```
 
 🔹 Frontend Setup
 
+```bash
 cd frontend
 npm install
 ng serve
+```
 
 Open:
-
 http://localhost:4200
