@@ -45,7 +45,9 @@ cd backend
 npm install
 ```
 Create a .env file inside the backend folder:
+```bash
 GROQ_API_KEY=your_api_key_here
+```
 
 Start backend server:
 ```bash
