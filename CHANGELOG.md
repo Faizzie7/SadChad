@@ -6,7 +6,41 @@ This project follows a simple changelog format to track improvements and updates
 
 ---
 
-## [1.0.0] - Initial Release
+## [1.1.0] - 2026-03-05
+
+### Added
+- Full-screen **video background for chat interface**
+- **Send and receive sound effects** for chat messages
+- **Audio unlock system** to bypass browser autoplay restrictions
+- **Video autoplay recovery system** to resume playback after refresh
+- **Dynamic SadChad header redesign** with title and subtitle
+- **Responsive full-height chat layout** for desktop and mobile
+
+### Improved
+- Chat UI now fills **100% of viewport height**
+- Improved **background overlay and blur styling**
+- Enhanced **message bubble gradients and animations**
+- Improved **scroll-to-bottom behavior** for new messages
+- Better **mobile responsiveness**
+
+### Fixed
+- Background video **not playing after refresh**
+- Video **not appearing behind chat container**
+- Chat container **not filling full page height**
+- **Audio playback blocked by browser autoplay policy**
+- **Receive sound not triggering after AI response**
+- **Send sound not triggering on message send**
+
+### Technical
+- Added `AfterViewInit` lifecycle hook for media initialization
+- Implemented `ensureVideoPlaying()` logic for video recovery
+- Added `unlockAudio()` workaround for browser audio restrictions
+- Improved Angular component structure with `ViewChild` references
+- Added background video management inside chat component
+
+---
+
+## [1.0.0] - Initial Release - 2026-02-17
 
 ### Added
 
