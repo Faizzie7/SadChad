@@ -1,13 +1,25 @@
 <div class="chat-container">
 
   <div class="chat-header">
-  <span>SadChad “Your bro who actually listens and occasionally gives life advice”</span>
 
-  <button 
-    class="new-chat-btn"
-    (click)="startNewChat()">
-    + New Chat
-  </button>
+    <div class="header-left">
+      <h1 class="app-title">SadChad</h1>
+      <p class="app-subtitle">
+        Talk it out. Feel better. Move forward.
+      </p>
+    </div>
+  
+    <button class="new-chat-btn" (click)="startNewChat()">
+      + New Chat
+    </button>
+  
+  </div>
+
+<div class="chat-bg">
+  <video #bgVideo class="chat-bg-video" autoplay muted loop playsinline preload="auto">
+    <source src="/bg.mp4" type="video/mp4" />
+  </video>
+  <div class="chat-bg-overlay"></div>
 </div>
 
   @if (showEmergencyPrompt) {

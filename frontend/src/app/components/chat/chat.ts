@@ -1,8 +1,7 @@
-import { Component, ElementRef, ViewChild, ChangeDetectorRef, OnInit } from '@angular/core';
+import { Component, ElementRef, ViewChild, ChangeDetectorRef, OnInit, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-
 import { ChatService } from '../../services/chat';
 
 @Component({
@@ -12,9 +11,15 @@ import { ChatService } from '../../services/chat';
   templateUrl: './chat.html',
   styleUrls: ['./chat.css']
 })
-export class ChatComponent implements OnInit {
+export class ChatComponent implements OnInit, AfterViewInit {
 
   @ViewChild('chatBox') chatBox!: ElementRef;
+  @ViewChild('bgVideo') bgVideo!: ElementRef<HTMLVideoElement>;
+
+  // 🔊 SOUND SYSTEM
+  private sendAudio = new Audio('/sounds/send.mp3');
+  private receiveAudio = new Audio('/sounds/receive.mp3');
+  private audioUnlocked = false;
 
   userInput: string = '';
   messages: { sender: string; text: string; time: Date }[] = [];
@@ -53,13 +58,78 @@ export class ChatComponent implements OnInit {
   }
 
   // ================================
+  // VIDEO AUTO RESUME FIX
+  // ================================
+
+  ngAfterViewInit() {
+    this.ensureVideoPlaying();
+
+    setTimeout(() => this.ensureVideoPlaying(), 200);
+    setTimeout(() => this.ensureVideoPlaying(), 800);
+
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden) {
+        this.ensureVideoPlaying();
+      }
+    });
+  }
+
+  private ensureVideoPlaying() {
+    try {
+      const video = this.bgVideo?.nativeElement;
+      if (!video) return;
+
+      video.muted = true;
+      video.playsInline = true;
+
+      if (video.paused) {
+        video.play().catch(() => {});
+      }
+    } catch {}
+  }
+
+  // ================================
+  // 🔊 AUDIO HELPERS
+  // ================================
+
+  private unlockAudio() {
+    if (this.audioUnlocked) return;
+    this.audioUnlocked = true;
+
+    const prime = (a: HTMLAudioElement) => {
+      a.preload = 'auto';
+      a.muted = true;
+      a.play().then(() => {
+        a.pause();
+        a.currentTime = 0;
+        a.muted = false;
+      }).catch(() => {});
+    };
+
+    prime(this.sendAudio);
+    prime(this.receiveAudio);
+  }
+
+  private playSendSound() {
+    this.sendAudio.currentTime = 0;
+    this.sendAudio.play().catch(() => {});
+  }
+
+  private playReceiveSound() {
+    this.receiveAudio.currentTime = 0;
+    this.receiveAudio.play().catch(() => {});
+  }
+
+  // ================================
   // INITIAL SYSTEM PROMPT
   // ================================
+
   initializeSystemPrompt() {
     this.conversationHistory = [
       {
         role: 'system',
-        content: 'You are SadChad, the bro who actually listens and occasionally drops life advice. Keep it chill, empathetic, and real. Respond in a text-chat style like a friend who genuinely cares, not a formal therapist. Use short sentences, casual tone, and occasional humor or relatable Gen Z expressions. Your goal is to make the user feel heard, supported, and understood. When the user shares their feelings, acknowledge them, validate them, and offer simple, practical advice or coping tips. You can suggest things like breathing exercises, journaling prompts, mindfulness techniques, or small life hacks. Always sound like a caring bro, not a professional. Keep responses under 3–5 sentences, easy to read, and conversational.'
+        content:
+          'You are SadChad, the bro who actually listens and occasionally drops life advice. Keep it chill, empathetic, and real. Respond in a text-chat style like a friend who genuinely cares.'
       }
     ];
   }
@@ -67,6 +137,7 @@ export class ChatComponent implements OnInit {
   // ================================
   // LOAD FROM LOCAL STORAGE
   // ================================
+
   loadConversation() {
     const savedMessages = localStorage.getItem('appChatMessages');
     const savedHistory = localStorage.getItem('conversationHistory');
@@ -89,40 +160,42 @@ export class ChatComponent implements OnInit {
   // ================================
   // SAVE TO LOCAL STORAGE
   // ================================
+
   saveConversation() {
     localStorage.setItem('appChatMessages', JSON.stringify(this.messages));
     localStorage.setItem('conversationHistory', JSON.stringify(this.conversationHistory));
   }
 
   // ================================
-  // 🔥 START NEW CHAT
+  // START NEW CHAT
   // ================================
+
   startNewChat() {
 
-    // Clear UI messages
     this.messages = [];
 
-    // Reset conversation history to only system prompt
     this.initializeSystemPrompt();
 
-    // Reset UI states
     this.emotionsUsed = false;
     this.showEmergencyPrompt = false;
     this.isLoading = false;
 
-    // Clear local storage
     localStorage.removeItem('appChatMessages');
     localStorage.removeItem('conversationHistory');
 
-    // Force UI update
     this.cdr.detectChanges();
   }
 
   // ================================
   // SEND MESSAGE
   // ================================
+
   sendMessage() {
     if (!this.userInput.trim() || this.isLoading) return;
+
+    // 🔊 play send sound
+    this.unlockAudio();
+    this.playSendSound();
 
     const messageToSend = this.userInput;
     const lowerInput = messageToSend.toLowerCase();
@@ -156,14 +229,17 @@ export class ChatComponent implements OnInit {
     this.chatService.sendConversation(this.conversationHistory)
       .subscribe({
         next: (response) => {
+
           this.conversationHistory.push({
             role: 'assistant',
             content: response.reply
           });
 
           this.typeAIMessage(response.reply);
+
         },
         error: () => {
+
           this.isLoading = false;
 
           this.messages.push({
@@ -180,46 +256,54 @@ export class ChatComponent implements OnInit {
   // ================================
   // TYPING EFFECT
   // ================================
+
   typeAIMessage(fullText: string) {
 
-  if (!fullText) {
-    this.isLoading = false;
-    return;
-  }
-
-  let index = 0;
-  let currentText = '';
-
-  const messageObj = {
-    sender: 'AI',
-    text: '',
-    time: new Date()
-  };
-
-  this.messages.push(messageObj);
-  this.cdr.detectChanges();
-
-  const interval = setInterval(() => {
-
-    if (index < fullText.length) {
-
-      currentText += fullText.charAt(index);
-      messageObj.text = currentText;
-      index++;
-
-      this.cdr.detectChanges();
-
-    } else {
-
-      clearInterval(interval);
+    if (!fullText) {
       this.isLoading = false;
-      this.saveConversation();
-      this.cdr.detectChanges();
-
+      return;
     }
 
-  }, 15);
-}
+    let index = 0;
+    let currentText = '';
+
+    const messageObj = {
+      sender: 'AI',
+      text: '',
+      time: new Date()
+    };
+
+    this.messages.push(messageObj);
+    this.cdr.detectChanges();
+
+    const interval = setInterval(() => {
+
+      if (index < fullText.length) {
+
+        currentText += fullText.charAt(index);
+        messageObj.text = currentText;
+        index++;
+
+        this.cdr.detectChanges();
+
+      } else {
+
+        clearInterval(interval);
+        this.isLoading = false;
+
+        // 🔊 play receive sound
+        this.playReceiveSound();
+
+        this.saveConversation();
+        this.cdr.detectChanges();
+      }
+
+    }, 15);
+  }
+
+  // ================================
+  // SCROLL
+  // ================================
 
   scrollToBottom() {
     setTimeout(() => {
@@ -235,4 +319,5 @@ export class ChatComponent implements OnInit {
     this.emotionsUsed = true;
     this.sendMessage();
   }
+
 }

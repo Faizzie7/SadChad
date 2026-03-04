@@ -1,23 +1,119 @@
-.chat-container {
-  width: 100%;
-  height: 98vh;
-  background: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(20px);
-  border-radius: 20px;
+.chat-container{
+  position: relative;
+
+  height: 100vh;
+  aspect-ratio: 9 / 16;
+
+  max-width: 100vw;
+
+  margin: auto;
   display: flex;
   flex-direction: column;
+
   overflow: hidden;
-  border: 1px solid rgb(255, 255, 255);
+}
+/* Background video layer */
+.chat-bg{
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.chat-bg-video{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.chat-bg-overlay{
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+}
+
+/* Put content above background */
+.chat-header,
+.emergency-card,
+.chat-box,
+.emotion-bar,
+.input-area{
+  position: relative;
+  z-index: 1;
 }
 
 /* HEADER */
-.chat-header {
-  padding: 20px;
-  text-align: center;
-  font-size: 25px;
-  font-weight: bold;
-  background: linear-gradient(90deg, #00f5ff, #ffffff);
-  color: rgb(0, 0, 0);
+.chat-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  padding:20px 22px;
+
+  background: linear-gradient(
+      135deg,
+      rgba(0,245,255,0.9),
+      rgba(0,180,255,0.6)
+  );
+
+  backdrop-filter: blur(12px);
+
+  border-bottom:1px solid rgba(255,255,255,0.2);
+
+  box-shadow:0 8px 25px rgba(0,0,0,0.3);
+}
+
+/* TITLE */
+.app-title{
+  margin:0;
+  font-size:32px;
+  font-weight:800;
+  letter-spacing:0.5px;
+
+  color:#000;
+
+  text-shadow:
+      0 0 15px rgba(255,255,255,0.4);
+}
+
+/* SUBTITLE */
+.app-subtitle{
+  margin-top:4px;
+
+  font-size:14px;
+  font-weight:500;
+
+  color:#001c22;
+  opacity:0.85;
+}
+
+/* TEXT WRAPPER */
+.header-left{
+  display:flex;
+  flex-direction:column;
+}
+
+/* BUTTON */
+.new-chat-btn{
+  background:linear-gradient(135deg,#ff5c5c,#ff2e2e);
+
+  border:none;
+  padding:8px 14px;
+
+  border-radius:8px;
+
+  color:white;
+  font-weight:600;
+
+  cursor:pointer;
+
+  box-shadow:0 6px 15px rgba(0,0,0,0.3);
+
+  transition:all .2s ease;
+}
+
+.new-chat-btn:hover{
+  transform:translateY(-2px);
+  box-shadow:0 10px 20px rgba(0,0,0,0.35);
 }
 
 /* CHAT AREA */
