@@ -6,7 +6,29 @@ This project follows a simple changelog format to track improvements and updates
 
 ---
 
-## [1.1.0] - 2026-03-05
+## v1.1.1 – 2026-03-05
+
+###  Remote Demo Deployment
+
+### Added
+- Cloudflare Tunnel support for external access
+- Express combined host server (host.js)
+
+### Changed
+- Frontend API URL switched from localhost:3000 → /api/chat
+
+### Fixed
+- Background video playback on refresh
+- Chat send/receive sound effects
+- Angular production build hosting
+
+### Improvements
+- Chatbot accessible from any internet device
+- Single public demo URL
+
+---
+
+## [1.1.0] - 2026-03-04
 
 ### Added
 - Full-screen **video background for chat interface**
