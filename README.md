@@ -224,7 +224,57 @@ Example keywords monitored:
 
 ---
 
-# 📸 Screenshots
+# 📸 Application Screenshots
+
+## 💬 Chat Interface
+
+![Chat Interface](screenshots/chat-interface.png)
+
+The main interface of **SadChad**, where users can talk with the AI chatbot in a conversational format.
+Messages appear as chat bubbles with timestamps, creating a familiar messaging experience.
+
+---
+
+## 😊 Emotion Quick Prompts
+
+![Emotion Selection](screenshots/emotion-selection.png)
+
+Users can quickly start conversations by selecting emotions such as **Happy, Sad, Anxious, Tired, or Stressed**.
+This helps users express their feelings even if they don't know what to type initially.
+
+---
+
+## ⚠ Crisis Detection System
+
+![Crisis Detection](screenshots/crisis-detection.png)
+
+The chatbot monitors messages for **crisis-related keywords** such as:
+
+* suicide
+* self harm
+* kill myself
+* end my life
+
+If detected, the system immediately shows a warning and suggests accessing emergency support resources.
+
+---
+
+## 🆘 Emergency Support Screen
+
+![Emergency Support](screenshots/emergency-support.png)
+
+The emergency support page provides users with **confidential mental health helplines available in India**, including:
+
+* Kiran Mental Health Helpline
+* AASRA Suicide Prevention
+* Vandrevala Foundation Mental Health Support
+
+The page also includes a **grounding breathing exercise** to help users calm down during distress.
+
+---
+
+⚠ **Disclaimer:**
+This chatbot provides supportive conversation and guidance but **is not a replacement for professional mental health care**.
 
 
 ---
